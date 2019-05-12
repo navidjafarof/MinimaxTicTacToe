@@ -147,51 +147,54 @@ def human_turn(c_choice, h_choice):
 
     while move < 1 or move > 9:
         move = int(input('Use Numbers: '))
-        coord = moves[move]
-        can_move = set_move(coord[0], coord[1], HUMAN)
-        if not can_move:
+        if 1 <= move <= 9:
+            coord = moves[move]
+            can_move = set_move(coord[0], coord[1], HUMAN)
+            if not can_move:
+                print('Bad move')
+                move = -1
+        else:
             print('Bad move')
             move = -1
 
 
 def main():
-    h_choice = ''  # X or O
-    c_choice = ''  # X or O
-    first = ''  # if human is the first
+    human_choice = ''  # X or O
+    computer_choice = ''
+    first = ''
 
-    while h_choice != 'O' and h_choice != 'X':
+    while human_choice != 'O' and human_choice != 'X':
         print('')
-        h_choice = input('Choose X or O\nChosen: ').upper()
+        human_choice = input('Choose X or O\nChosen: ').upper()
 
-    if h_choice == 'X':
-        c_choice = 'O'
+    if human_choice == 'X':
+        computer_choice = 'O'
     else:
-        c_choice = 'X'
+        computer_choice = 'X'
 
     while first != 'Y' and first != 'N':
-        first = input('First to start?[y/n]: ').upper()
+        first = input('First To Start The Game? [Y / N]: ').upper()
 
     while not game_over(board):
         if first == 'N':
-            ai_turn(c_choice, h_choice)
+            ai_turn(computer_choice, human_choice)
             first = ''
-
-        human_turn(c_choice, h_choice)
-        ai_turn(c_choice, h_choice)
+        human_turn(computer_choice, human_choice)
+        ai_turn(computer_choice, human_choice)
 
     if wins(board, HUMAN):
         print("Human Turn")
-        print_board(board, c_choice, h_choice)
-        print('YOU WIN!')
+        print_board(board, computer_choice, human_choice)
+        print('You Win!')
 
     elif wins(board, COMPUTER):
         print("Computer Turn")
-        print_board(board, c_choice, h_choice)
-        print("YOU LOSE!")
+        print_board(board, computer_choice, human_choice)
+        print("You Lose!")
 
     else:
-        print_board(board, c_choice, h_choice)
-        print("DRAW!")
+        print_board(board, computer_choice, human_choice)
+        print("Draw!")
 
     exit()
 
