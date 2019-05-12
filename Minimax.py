@@ -15,7 +15,7 @@ def print_board(state, c_choice, h_choice):
     chars = {
         -1: h_choice,
         +1: c_choice,
-        0: '-'
+         0: '-'
     }
     for row in state:
         for cell in row:
@@ -119,7 +119,7 @@ def ai_turn(c_choice, h_choice):
     if game_over(board):
         return
 
-    print(f'Computer turn [{c_choice}]')
+    print("Computer Turn")
     print_board(board, c_choice, h_choice)
 
     if len(empty_cells(board)) == 9:
@@ -182,16 +182,18 @@ def main():
         ai_turn(c_choice, h_choice)
 
     if wins(board, HUMAN):
-        print(f'Human turn [{h_choice}]')
+        print("Human Turn")
         print_board(board, c_choice, h_choice)
         print('YOU WIN!')
+
     elif wins(board, COMPUTER):
-        print(f'Computer turn [{c_choice}]')
+        print("Computer Turn")
         print_board(board, c_choice, h_choice)
-        print('YOU LOSE!')
+        print("YOU LOSE!")
+
     else:
         print_board(board, c_choice, h_choice)
-        print('DRAW!')
+        print("DRAW!")
 
     exit()
 
