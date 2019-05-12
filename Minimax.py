@@ -88,28 +88,34 @@ def set_move(x, y, player):
         return False
 
 
-def min_max(state, depth, player):
+def min_max(state, player, steps):
     if player == COMPUTER:
-        best = [-1, -1, -infinity]
+        best = [-1, -1, -infinity, 0]
     else:
-        best = [-1, -1, +infinity]
+        best = [-1, -1, +infinity, 0]
 
     if game_over(state):
         score = evaluate_state(state)
-        return [-1, -1, score]
+        return [-1, -1, score, steps]
 
     for cell in empty_cells(state):
         x, y = cell[0], cell[1]
         state[x][y] = player
-        score = min_max(state, depth - 1, -player)
+        score = min_max(state, -player, steps + 1)
         state[x][y] = 0
         score[0], score[1] = x, y
 
         if player == COMPUTER:
-            if score[2] > best[2]:
-                best = score  # max value
+            if score[2] == best[2]:
+                if score[3] < best[3]:
+                    best = score
+            elif score[2] > best[2]:
+                best = score
         else:
-            if score[2] < best[2]:
+            if score[2] == best[2]:
+                if score[3] > best[3]:
+                    best = score
+            elif score[2] < best[2]:
                 best = score  # min value
 
     return best
@@ -126,7 +132,7 @@ def ai_turn(c_choice, h_choice):
         x = choice([0, 1, 2])
         y = choice([0, 1, 2])
     else:
-        move = min_max(board, len(empty_cells(board)), COMPUTER)
+        move = min_max(board, COMPUTER, 0)
         x, y = move[0], move[1]
     set_move(x, y, COMPUTER)
 
