@@ -15,7 +15,7 @@ def print_board(state, c_choice, h_choice):
     chars = {
         -1: h_choice,
         +1: c_choice,
-         0: '-'
+        0: '-'
     }
     for row in state:
         for cell in row:
@@ -53,10 +53,6 @@ def evaluate_state(state):
     return score
 
 
-def game_over(state):
-    return wins(state, HUMAN) or wins(state, COMPUTER) or is_full()
-
-
 def empty_cells(state):
     cells = []
     for x, row in enumerate(state):
@@ -71,6 +67,10 @@ def is_full():
     if depth == 0:
         return True
     return False
+
+
+def game_over(state):
+    return wins(state, HUMAN) or wins(state, COMPUTER) or is_full()
 
 
 def is_valid_move(x, y):
@@ -128,7 +128,6 @@ def ai_turn(c_choice, h_choice):
     else:
         move = min_max(board, len(empty_cells(board)), COMPUTER)
         x, y = move[0], move[1]
-
     set_move(x, y, COMPUTER)
 
 
@@ -136,7 +135,6 @@ def human_turn(c_choice, h_choice):
     if game_over(board):
         return
 
-    # Dictionary of valid moves
     move = -1
     moves = {
         1: [0, 0], 2: [0, 1], 3: [0, 2],
@@ -148,7 +146,7 @@ def human_turn(c_choice, h_choice):
     print_board(board, c_choice, h_choice)
 
     while move < 1 or move > 9:
-        move = int(input('Use numpad (1..9): '))
+        move = int(input('Use Numbers: '))
         coord = moves[move]
         can_move = set_move(coord[0], coord[1], HUMAN)
         if not can_move:
@@ -173,7 +171,7 @@ def main():
     while first != 'Y' and first != 'N':
         first = input('First to start?[y/n]: ').upper()
 
-    while len(empty_cells(board)) > 0 and not game_over(board):
+    while not game_over(board):
         if first == 'N':
             ai_turn(c_choice, h_choice)
             first = ''
