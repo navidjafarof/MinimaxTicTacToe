@@ -144,7 +144,7 @@ def human_turn(c_choice, h_choice):
         7: [2, 0], 8: [2, 1], 9: [2, 2],
     }
 
-    print(f'Human turn [{h_choice}]')
+    print("Human Turn")
     print_board(board, c_choice, h_choice)
 
     while move < 1 or move > 9:
