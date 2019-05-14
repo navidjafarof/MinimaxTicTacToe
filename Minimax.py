@@ -43,11 +43,11 @@ def wins(state, player):
         return False
 
 
-def evaluate_state(state):
+def evaluate_state(state, steps):
     if wins(state, COMPUTER):
-        score = +1
+        score = 10 - steps
     elif wins(state, HUMAN):
-        score = -1
+        score = steps - 10
     else:
         score = 0
     return score
@@ -90,13 +90,13 @@ def set_move(x, y, player):
 
 def min_max(state, player, steps):
     if player == COMPUTER:
-        best = [-1, -1, -infinity, 0]
+        best = [-1, -1, -infinity]
     else:
-        best = [-1, -1, +infinity, 0]
+        best = [-1, -1, +infinity]
 
     if game_over(state):
-        score = evaluate_state(state)
-        return [-1, -1, score, steps]
+        score = evaluate_state(state, steps)
+        return [-1, -1, score]
 
     for cell in empty_cells(state):
         x, y = cell[0], cell[1]
@@ -106,16 +106,10 @@ def min_max(state, player, steps):
         score[0], score[1] = x, y
 
         if player == COMPUTER:
-            if score[2] == best[2]:
-                if score[3] < best[3]:
-                    best = score
-            elif score[2] > best[2]:
+            if score[2] > best[2]:
                 best = score
         else:
-            if score[2] == best[2]:
-                if score[3] > best[3]:
-                    best = score
-            elif score[2] < best[2]:
+            if score[2] < best[2]:
                 best = score  # min value
 
     return best
